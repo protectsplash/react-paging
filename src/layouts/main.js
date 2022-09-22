@@ -34,7 +34,7 @@ export default function StickyHeadTable() {
       },
     })
   }
-  const TestsCount = useQuery(testsCount, {
+  const [TestsCount] = useLazyQuery(testsCount, {
     fetchPolicy: "no-cache",
     onError(err) {
       console.log({ err })
@@ -69,11 +69,13 @@ export default function StickyHeadTable() {
     //     },
     //   })
     // }
-    Tests({
-      variables: {
-        limit: rowsPerPage,
-        start: (page - 1) * rowsPerPage,
-      },
+    TestsCount().then(() => {
+      Tests({
+        variables: {
+          limit: rowsPerPage,
+          start: (page - 1) * rowsPerPage,
+        },
+      })
     })
   }, [])
   return (
